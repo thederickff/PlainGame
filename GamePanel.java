@@ -21,11 +21,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public GamePanel() {
 		this.random = new Random();
 		this.handler = new Handler();
-		this.player = new Player(300, 300);
+
 		/*for (int i = 0; i < 10; i++) {
 			this.handler.add(new Enemy(random.nextInt(400), random.nextInt(300)));
 		}*/
 		this.handler.add(new Block(400, 400));
+		this.player = new Player(400, 0, handler);
 		init();
 	}
 	
