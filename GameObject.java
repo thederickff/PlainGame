@@ -8,6 +8,8 @@ public abstract class GameObject {
 	protected int y;
 	protected double dx;
 	protected double dy;
+	protected int width;
+	protected int height;
 	
 	public abstract void update();
 	public abstract void draw(Graphics2D g);

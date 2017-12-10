@@ -7,6 +7,8 @@ public class Enemy extends GameObject {
 	public Enemy(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.width = 16;
+		this.height = 16;
 		this.id = ID.enemy;
 		double direction = Math.random() * 100 - 1;
 		if (direction >= 50) {
@@ -43,13 +45,13 @@ public class Enemy extends GameObject {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.red);
-		g.fillOval(this.x, this.y, 16, 16);	
+		g.fillOval(this.x, this.y, this.width, this.height);	
 	}
 	
 	
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(this.x, this.y, 16, 16);
+		return new Rectangle(this.x, this.y, this.width, this.height);
 	}
 	
  }

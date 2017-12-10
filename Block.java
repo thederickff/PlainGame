@@ -7,6 +7,8 @@ public class Block extends GameObject {
 	public Block(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.width = 32;
+		this.height = 32;
 		this.id = ID.block;
 	}
 	
@@ -17,12 +19,12 @@ public class Block extends GameObject {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.gray);
-		g.fillRect(this.x, this.y, 32, 32);
+		g.fillRect(this.x, this.y, this.width, this.height);
 	}
 	
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(this.x, this.y, 32, 32);
+		return new Rectangle(this.x, this.y, this.width, this.height);
 	}
 	
 }
