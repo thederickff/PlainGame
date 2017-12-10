@@ -15,28 +15,31 @@ public class Player extends GameObject {
 	private boolean right; 
 	private boolean jumping;
 	private boolean falling;
+	private Handler handler;
 
-	public Player(int x, int y) {
+	public Player(int x, int y, Handler handler) {
 		this.x = x;
 		this.y = y;
 		this.id = ID.player;
 		
 		this.speed = 0.3;
 		this.stop = 0.2;
-		this.jump = -11;
-		this.gravity = 3.2;
+		this.jump = -15;
+		this.gravity = 0.9;
 		this.maxSpeed = 4.3;
 		this.maxFall = 12.4;
+		this.handler = handler;
+		this.falling = true;
 	}
 
 	@Override
 	public void update() {
-		moveLeftOrRight();
-		this.x += this.dx;
-		this.y += this.dy;
+		movement();
+
+		checkColisions();
 	}
 	
-	private void moveLeftOrRight() {
+	private void movement() {
 		if (left) {
 			this.dx -= speed;
 			if (this.dx < -maxSpeed) {
@@ -60,6 +63,52 @@ public class Player extends GameObject {
 				}			
 			}
 		}
+		
+		if (jumping) {
+			this.dy = jump;
+			this.jumping = false;
+			this.falling = true;
+		}
+		
+		if (falling) {
+			this.dy += gravity;
+			if (this.dy > maxFall) {
+				this.dy = maxFall;
+			}
+		}
+	}
+	
+	private void checkColisions() {
+		int desiredX = this.x + (int) this.dx;
+		int desiredY = this.y + (int) this.dy;
+		
+		for (GameObject object : this.handler.getObjects()) {
+						
+			if (object.getID() == ID.block) {
+				if (getBoundsX(desiredX).intersects(object.getBounds())) {
+				} else {
+					this.x = desiredX;
+				}
+				
+				if (getBoundsY(desiredY).intersects(object.getBounds())) {
+					this.dy = 0;
+					this.falling = false;
+				} else {
+	 			   this.y = desiredY;
+				}
+				
+				if (!falling) {
+					if (!getBoundsY(this.y+1).intersects(object.getBounds())) {
+						this.falling = true;
+					}					
+				}
+				
+				if (this.x+10 != object.getX()-16) {
+					object.setX((this.x + 10) - 16);
+				}
+			}
+							
+		}
 	}
 	
 	@Override
@@ -73,6 +122,14 @@ public class Player extends GameObject {
 		return new Rectangle(this.x, this.y, 20, 20);
 	}
 	
+	public Rectangle getBoundsX(int x) {
+		return new Rectangle(x, this.y, 20, 20);
+	}
+
+	public Rectangle getBoundsY(int y) {
+		return new Rectangle(this.x,y, 20, 20);
+	}
+	
 	public void keyPressed(KeyEvent e) {
 			
 		if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -81,6 +138,12 @@ public class Player extends GameObject {
 		
 		if (e.getKeyCode() == KeyEvent.VK_D) {
 			this.right = true;
+		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			if (!falling) {
+				this.jumping = true;
+			}
 		}
 	}
 	
