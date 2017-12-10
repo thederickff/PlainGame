@@ -12,7 +12,7 @@ public abstract class GameObject {
 	protected int height;
 	
 	public abstract void update();
-	public abstract void draw(Graphics2D g, int xOffset, int yOffset);
+	public abstract void draw(Graphics2D g);
 	public abstract Rectangle getBounds();
 	
 	public ID getID() {

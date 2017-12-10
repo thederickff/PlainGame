@@ -153,7 +153,7 @@ public class Player extends GameObject {
 	}
 	
 	@Override
-	public void draw(Graphics2D g, int xOffset, int yOffset) {
+	public void draw(Graphics2D g) {
 		g.setColor(Color.blue);
 		g.fillRect(this.x, this.y, this.width, this.height);
 	}

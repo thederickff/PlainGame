@@ -43,7 +43,7 @@ public class Enemy extends GameObject {
 	
 	
 	@Override
-	public void draw(Graphics2D g, int xOffset, int yOffset) {
+	public void draw(Graphics2D g) {
 		g.setColor(Color.red);
 		g.fillOval(this.x, this.y, this.width, this.height);	
 	}

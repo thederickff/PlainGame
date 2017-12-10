@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		g2.translate(-this.player.getCamX(), -this.player.getCamY());
 		///////////////////////////////////////////////////////////////////////
 		this.handler.draw(g2);
-		this.player.draw(g2, 0, 0);	
+		this.player.draw(g2);	
 		g.dispose();
 	}
 
