@@ -17,6 +17,10 @@ public class Handler {
 		this.objects.remove(object);
 	}
 	
+	public LinkedList<GameObject> getObjects() {
+		return objects;
+	}
+	
 	public void update() {
 		for (GameObject object : this.objects) {
 			object.update();
