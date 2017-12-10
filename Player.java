@@ -16,24 +16,25 @@ public class Player extends GameObject {
 	private boolean jumping;
 	private boolean falling;
 	private Handler handler;
-	
-	private boolean moveLeft;
-	private boolean moveRight;
-	private boolean moveUp;
-	private boolean moveDown;
+	private MapLoader mapLoader;
+	private boolean moveLeftOrRight;
 	
 	private GameObject bottomObject;
+	
+	private int camX;
+	private int camY;
 
-	public Player(int x, int y, Handler handler) {
+	public Player(int x, int y, Handler handler, MapLoader mapLoader) {
 		this.x = x;
 		this.y = y;
-		this.width = 20;
-		this.height = 20;
+		this.width = 32;
+		this.height = 48;
 		this.id = ID.player;
-		this.handler = handler;		
+		this.handler = handler;
+		this.mapLoader = mapLoader;		
 		this.speed = 0.3;
 		this.stop = 0.2;
-		this.jump = -15;
+		this.jump = -16;
 		this.gravity = 1.1;
 		this.maxSpeed = 4.3;
 		this.maxFall = 12.4;
@@ -45,6 +46,9 @@ public class Player extends GameObject {
 		movement();
 		
 		checkColisions();
+		this.camX = this.x - Game.WIDTH / 2;
+		this.camY = this.y - Game.HEIGHT / 2;
+		checkCamera();
 	}
 	
 	private void movement() {
@@ -94,27 +98,17 @@ public class Player extends GameObject {
 		for (GameObject object : this.handler.getObjects()) {
 			if (object.getID() == ID.block) {
 				if (getBoundsToX(desiredX).intersects(object.getBounds())) {
-					if (left) {
-						this.moveLeft = false;
-						break;
-					} else if (right) {
-						this.moveRight = false;
-						break;
-					}
+					this.moveLeftOrRight = false;
+					break;
 				}
 			}
 		}
 		
-		if (this.moveLeft && this.moveRight) {
+		if (moveLeftOrRight) {
 			this.x = desiredX;
 		}
-		if (!moveLeft) {
-			this.moveLeft = true;
-		}
 		
-		if (!moveRight) { 
-			this.moveRight = true;
-		}
+		if (!moveLeftOrRight) moveLeftOrRight = true;
 		
 		///////////////////////////// Y Axis ///////////////////////////////////
 		for (GameObject object : this.handler.getObjects()) {
@@ -141,15 +135,25 @@ public class Player extends GameObject {
 		} else {
 			this.falling = true;
 		}
+	 
+	}
+	
+	private void checkCamera() {
+		if (this.camX > this.mapLoader.getMaxOffsetX() ) {
+			this.camX = this.mapLoader.getMaxOffsetX();
+		} else if (this.camX < this.mapLoader.getMinOffsetX()) {
+			this.camX = this.mapLoader.getMinOffsetX();
+		}
 		
-		
-	    System.out.println(falling);
-	    
-	    
+		if (this.camY > this.mapLoader.getMaxOffsetY()+32) {
+			this.camY = this.mapLoader.getMaxOffsetY()+32;
+		} else if (this.camY < this.mapLoader.getMinOffsetY()) {
+			this.camY = this.mapLoader.getMinOffsetY();
+		}
 	}
 	
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g, int xOffset, int yOffset) {
 		g.setColor(Color.blue);
 		g.fillRect(this.x, this.y, this.width, this.height);
 	}
@@ -192,5 +196,13 @@ public class Player extends GameObject {
 		if (e.getKeyCode() == KeyEvent.VK_D) {
 			this.right = false;
 		}	
+	}
+	
+	public int getCamX() {
+		return camX;
+	}
+	
+	public int getCamY() {
+		return camY;
 	}
 }

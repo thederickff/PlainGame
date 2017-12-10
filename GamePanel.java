@@ -17,23 +17,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Handler handler;
 	private Random random;
 	private Player player;
+	private MapLoader mapLoader;
 
 	public GamePanel() {
 		this.random = new Random();
 		this.handler = new Handler();
+		this.mapLoader = new MapLoader("stage01.map", handler);
 
-		/*for (int i = 0; i < 10; i++) {
-			this.handler.add(new Enemy(random.nextInt(400), random.nextInt(300)));
-		}*/
-		this.handler.add(new Block(400, 432));
-		this.handler.add(new Block(432, 400));
-		this.handler.add(new Block(400, 300));
-		this.player = new Player(400, 0, handler);
+		this.player = new Player(100, 100, handler, mapLoader);
 		init();
 	}
 	
 	public synchronized void init() {
 		setFocusable(true);
+		setDoubleBuffered(true);
 		addKeyListener(this);
 		this.thread = new Thread(this);
 		this.running = true;
@@ -89,14 +86,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
-		g2.setColor(Color.black);
+		g.setColor(Color.cyan.darker().darker());
 		g2.fillRect(0, 0, 800, 600);
 		g2.setColor(Color.yellow);
 		g2.drawString("FPS: " + this.frames, 50, 20);
-
-		this.player.draw(g2);		
+		g2.translate(-this.player.getCamX(), -this.player.getCamY());
+		///////////////////////////////////////////////////////////////////////
 		this.handler.draw(g2);
-		
+		this.player.draw(g2, 0, 0);	
 		g.dispose();
 	}
 
