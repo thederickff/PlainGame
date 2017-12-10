@@ -25,6 +25,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		this.mapLoader = new MapLoader("stage01.map", handler);
 
 		this.player = new Player(100, 100, handler, mapLoader);
+		this.handler.add(new Enemy(1040, 100, handler));
+		this.handler.add(new Enemy(940, 100, handler));
+		this.handler.add(new Enemy(140, 100, handler));
 		init();
 	}
 	
