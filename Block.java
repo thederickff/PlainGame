@@ -16,7 +16,7 @@ public class Block extends GameObject {
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.green);
+		g.setColor(Color.gray);
 		g.fillRect(this.x, this.y, 32, 32);
 	}
 	
@@ -24,5 +24,6 @@ public class Block extends GameObject {
 	public Rectangle getBounds() {
 		return new Rectangle(this.x, this.y, 32, 32);
 	}
+	
 }
 
