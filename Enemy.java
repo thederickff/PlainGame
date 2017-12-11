@@ -8,8 +8,8 @@ public class Enemy extends Character {
 	
 	public Enemy(int x, int y, Handler handler) {
 		super(x, y, handler);
-		this.width = 10;
-		this.height = 10;
+		this.width = 15;
+		this.height = 15;
 		this.id = ID.enemy;
 		this.startTime = System.currentTimeMillis();
 	}
@@ -20,12 +20,7 @@ public class Enemy extends Character {
 		
 		long elapsedTime = System.currentTimeMillis();
 		
-		if (elapsedTime - startTime > 600) {
-			if (!falling) {
-				this.jumping = true;
-			}
-		}
-		if (elapsedTime - startTime > 2000) {
+		if (elapsedTime - startTime > 400) {
 			if (left) {
 				this.left = false;
 				this.right = true;

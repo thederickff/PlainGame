@@ -33,7 +33,7 @@ public class Player extends Character {
 		}
 		
 		if (this.camY > this.mapLoader.getMaxOffsetY() + 32) {
-			this.camY = this.mapLoader.getMaxOffsetY() + 32;
+			this.camY = this.mapLoader.getMaxOffsetY()+ 32;
 		} else if (this.camY < this.mapLoader.getMinOffsetY()) {
 			this.camY = this.mapLoader.getMinOffsetY();
 		}

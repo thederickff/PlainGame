@@ -10,6 +10,7 @@ public class MapLoader {
 	private int totalRows;
 	private int totalColumns;
 	private int[][] map;
+	private int tileSize;
 	private Handler handler;
 	
 	private final int WORLD_SIZE_X;
@@ -22,10 +23,11 @@ public class MapLoader {
 	public MapLoader(String path, Handler handler) {
 		this.file = new File(path);
 		this.handler = handler;
+		this.tileSize = 32;
 		loadMap();
 		
-		WORLD_SIZE_X = this.totalColumns * 32;
-		WORLD_SIZE_Y = this.totalRows * 32;
+		WORLD_SIZE_X = this.totalColumns * this.tileSize;
+		WORLD_SIZE_Y = this.totalRows * this.tileSize;
 		
 		this.minOffsetX = 0;
 		this.minOffsetY = 0;
@@ -46,7 +48,11 @@ public class MapLoader {
 				for (int col = 0; col < this.totalColumns; col++) {
 					this.map[row][col] = Integer.parseInt(tokens[col]);
 					if (this.map[row][col] == 1) {
-						this.handler.add(new Block(col * 32, row * 32));
+						this.handler.add(new Block(col * this.tileSize, row * this.tileSize));
+						continue;
+					}
+					if (this.map[row][col] == 2) {
+						this.handler.add(new Enemy(col * this.tileSize, row * this.tileSize, this.handler));
 					}
 				}						   			
 		    }
